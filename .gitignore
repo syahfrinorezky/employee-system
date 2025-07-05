@@ -3,5 +3,6 @@
 /src/resources/js/dist/fa.min.js
 /src/resources/style/style.css
 /src/resources/public/images/
+/src/config/configuration.php
 .DS_Store
 *.txt
