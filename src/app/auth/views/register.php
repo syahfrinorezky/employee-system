@@ -1,3 +1,17 @@
+<?php
+
+session_start();
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : array();
+
+unset($_SESSION['errors']);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,20 +28,99 @@
                 <h1 class="text-center text-indigo-600 text-2xl font-bold font-primary uppercase text-shadow-md text-shadow-gray-300 text-primary">Register</h1>
                 <form action="../process/register_process.php" method="post" class="flex flex-col space-y-6">
                     <label for="email" class="flex flex-col space-y-2 w-full">
+
+                        <?php if (isset($errors['email'])): ?>
+                            <div 
+                                x-cloak
+                                x-data="{
+                                    show : false, visible : false
+                                }" 
+                                x-init="
+                                setTimeout(() => { 
+                                    show = true; 
+                                    visible = true; 
+                                    setTimeout(() => visible = false, 3000);
+                                }, 1000);" 
+                                x-show="visible"
+                                x-transition:enter="transition ease-out duration-300 transform"
+                                x-transition:enter-start="opacity-0"
+                                x-transition:enter-end="opacity-100"
+                                x-transition:leave="transition ease-in duration-300 transform"
+                                x-transition:leave-start="opacity-100"
+                                x-transition:leave-end="opacity-0"
+                                class="p-2 flex items-center gap-x-2 bg-red-500/40 rounded-lg border border-red-500">
+                                <i class="fa-solid fa-xmark text-white text-xs"></i>
+                                <p class="text-xs text-white text-shadow-sm text-shadow-gray-400"><?= $errors['email']; ?></p>
+                            </div>
+                        <?php endif; ?>
+
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-envelope text-indigo-500 text-base"></i>
                             <p class="font-primary text-sm text-gray-600 text-shadow-xs text-shadow-gray-300">Email</p>
                         </div>
-                        <input type="text" name="email" id="email" placeholder="Masukkan email anda" class="p-2  text-sm outline-1 outline-indigo-300 rounded-lg focus:outline-1 focus:outline-indigo-500  hover:outline-1 hover:outline-indigo-500 transition-all duration-300 ease-in-out">
+                        <input type="text" name="email" id="email" placeholder="Masukkan email anda" class="p-2 text-sm outline-1 outline-indigo-300 rounded-lg focus:outline-1 focus:outline-indigo-500  hover:outline-1 hover:outline-indigo-500 transition-all duration-300 ease-in-out">
                     </label>                    
                     <label for="username" class="flex flex-col space-y-2 w-full">
+
+                        <?php if (isset($errors['username'])): ?>
+                            <div
+                                x-cloak
+                                x-data="{
+                                    show : false, visible : false
+                                }" 
+                                x-init="
+                                setTimeout(() => { 
+                                    show = true; 
+                                    visible = true; 
+                                    setTimeout(() => visible = false, 3000);
+                                }, 1000);" 
+                                x-show="visible"
+                                x-transition:enter="transition ease-out duration-300 transform"
+                                x-transition:enter-start="opacity-0"
+                                x-transition:enter-end="opacity-100"
+                                x-transition:leave="transition ease-in duration-300 transform"
+                                x-transition:leave-start="opacity-100"
+                                x-transition:leave-end="opacity-0" 
+                                class="p-2 flex items-center gap-x-2 bg-red-500/40 rounded-lg border border-red-500">
+                                <i class="fa-solid fa-xmark text-white text-xs"></i>
+                                <p class="text-xs text-white text-shadow-sm text-shadow-gray-400"><?= $errors['username']; ?></p>
+                            </div>
+                        <?php endif; ?>
+
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-user text-indigo-500 text-base"></i>
-                            <p class="font-primary text-sm text-gray-600 text-shadow-xs text-shadow-gray-300">Username</p>
+                            <p class="flex gap-3 font-primary text-sm text-gray-600 text-shadow-xs text-shadow-gray-300">Username</p>
                         </div>
                         <input type="text" name="username" id="username" placeholder="Masukkan username anda" class="p-2  text-sm outline-1 outline-indigo-300 rounded-lg focus:outline-1 focus:outline-indigo-500  hover:outline-1 hover:outline-indigo-500 transition-all duration-300 ease-in-out">
+                        <p class="text-xs <?= isset($errors['minimumuser']) ? 'text-red-500' : 'text-gray-400' ?>">* Username minimal 5 karakter</p>
                     </label>
                     <label for="password" class="flex flex-col space-y-2 w-full">
+
+                        <?php if (isset($errors['password'])): ?>
+                            <div 
+                                x-cloak
+                                x-data="{
+                                    show : false, visible : false
+                                }" 
+                                x-init="
+                                setTimeout(() => { 
+                                    show = true; 
+                                    visible = true; 
+                                    setTimeout(() => visible = false, 3000);
+                                }, 1000);" 
+                                x-show="visible"
+                                x-transition:enter="transition ease-out duration-300 transform"
+                                x-transition:enter-start="opacity-0"
+                                x-transition:enter-end="opacity-100"
+                                x-transition:leave="transition ease-in duration-300 transform"
+                                x-transition:leave-start="opacity-100"
+                                x-transition:leave-end="opacity-0"
+                                class="p-2 flex items-center gap-x-2 bg-red-500/40 rounded-lg border border-red-500">
+                                <i class="fa-solid fa-xmark text-white text-xs"></i>
+                                <p class="text-xs text-white text-shadow-sm text-shadow-gray-400"><?= $errors['password']; ?></p>
+                            </div>
+                        <?php endif; ?>
+
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-key text-indigo-500 text-base"></i>
                             <p class="font-primary text-sm text-gray-600 text-shadow-xs text-shadow-gray-300">Password</p>
@@ -39,8 +132,9 @@
                                 <i class="fa-solid fa-eye-slash" x-show="show"></i>
                             </button>
                         </div>
+                        <p class="text-xs <?= isset($errors['minimumpass']) ? 'text-red-500' : 'text-gray-400' ?>">* Password minimal 8 karakter</p>
                     </label>
-                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold uppercase p-2 rounded-lg cursor-pointer">Daftar</button>
+                    <button type="submit" name="register"  class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold uppercase p-2 rounded-lg cursor-pointer">Daftar</button>
                     <p class="text-sm text-center text-gray-500">Sudah punya akun? <a href="./login.php" class="text-indigo-500 hover:text-indigo-600 hover:underline transition-all duration-300 ease-in-out">Login</a></p>
                 </form>
             </div>

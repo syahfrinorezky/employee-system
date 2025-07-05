@@ -1,3 +1,19 @@
+<?php
+
+session_start();
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$errors = $_SESSION['errors'] ?? [];
+$success = $_SESSION['success'] ?? [];
+
+unset($_SESSION['errors']);
+unset($_SESSION['success']);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +28,57 @@
         <div class="flex flex-col sm:flex-row w-4/5 sm:max-w-4xl rounded-lg overflow-hidden shadow-xl shadow-gray-300 border border-gray-300">
             <div class="bg-white flex flex-col space-y-8 p-5 sm:p-10 sm:w-1/2 order-2 sm:order-1">
                 <h1 class="text-center text-indigo-600 text-2xl font-bold font-primary uppercase text-shadow-md text-shadow-gray-300 text-primary">LOGIN</h1>
+
+                <?php if (!empty($success)): ?>
+                    <div
+                        x-cloak
+                        x-data="{
+                            show : false, visible : false
+                        }" 
+                        x-init="
+                        setTimeout(() => { 
+                            show = true; 
+                            visible = true; 
+                            setTimeout(() => visible = false, 3000);
+                        }, 1000);" 
+                        x-show="visible"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-300 transform"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0" 
+                        class="p-2 flex items-center gap-x-2 bg-green-500/40 rounded-lg border border-green-500">
+                        <i class="fa-solid fa-check text-white text-sm"></i>
+                        <p class="text-sm text-white text-shadow-sm text-shadow-gray-400"><?= $success; ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($errors)): ?>
+                    <div
+                        x-cloak
+                        x-data="{
+                            show : false, visible : false
+                        }" 
+                        x-init="
+                        setTimeout(() => { 
+                            show = true; 
+                            visible = true; 
+                            setTimeout(() => visible = false, 3000);
+                        }, 1000);" 
+                        x-show="visible"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-300 transform"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0" 
+                        class="p-2 flex items-center gap-x-2 bg-red-500/40 rounded-lg border border-red-500">
+                        <i class="fa-solid fa-xmark text-white text-sm"></i>
+                        <p class="text-sm text-white text-shadow-sm text-shadow-gray-400"><?= $errors; ?></p>
+                    </div>
+                <?php endif; ?>
+
                 <form action="../process/login_process.php" method="post" class="flex flex-col space-y-6">
                     <label for="username" class="flex flex-col space-y-2 w-full">
                         <div class="flex items-center gap-2">
@@ -33,7 +100,7 @@
                             </button>
                         </div>
                     </label>
-                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold uppercase p-2 rounded-lg cursor-pointer">Login</button>
+                    <button type="submit" name="login" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold uppercase p-2 rounded-lg cursor-pointer">Login</button>
                     <div class="flex flex-col items-center gap-4">
                         <p class="text-sm text-gray-500">Lupa password? <a href="" class="text-indigo-500 hover:text-indigo-600 hover:underline transition-all duration-300 ease-in-out">Disini</a></p>
                         <div class="relative flex items-center w-full">
