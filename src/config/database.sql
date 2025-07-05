@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- Tabel Employees (Karyawan)
-CREATE TABLE IF NOT EXISTS employees (
+CREATE TABLE employees (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     nip VARCHAR(20) UNIQUE NOT NULL,
@@ -23,28 +23,41 @@ CREATE TABLE IF NOT EXISTS employees (
     alamat TEXT,
     tanggal_lahir DATE,
     jenis_kelamin ENUM('Laki-laki', 'Perempuan') NOT NULL,
-    
-    -- Informasi Pekerjaan
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Tabel Employment Info
+CREATE TABLE employment_info (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    employee_id INT NOT NULL,
     jabatan ENUM('Manager', 'Supervisor', 'Staff', 'Intern') NOT NULL,
     departemen ENUM('IT', 'HR', 'Finance', 'Marketing', 'Operations') NOT NULL,
     tanggal_masuk DATE NOT NULL,
     status_karyawan ENUM('Aktif', 'Resign') DEFAULT 'Aktif',
-    
-    -- Kontrak
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
+);
+
+-- Tabel Contracts
+CREATE TABLE contracts (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    employee_id INT NOT NULL,
     jenis_kontrak ENUM('Tetap', 'Kontrak') NOT NULL,
     durasi_kontrak_bulan INT,
     tanggal_berakhir_kontrak DATE,
-    
-    -- Pendidikan
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
+);
+
+-- Tabel Educations
+CREATE TABLE educations (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    employee_id INT NOT NULL,
     pendidikan_terakhir ENUM('SMA', 'D3', 'S1', 'S2', 'S3') NOT NULL,
     nama_sekolah VARCHAR(100),
     jurusan VARCHAR(100),
-    
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL
-
-    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
 );
 
 -- Tabel Attendances (Absensi)
