@@ -1,0 +1,7 @@
+/node_modules
+/src/resources/js/dist/app.bundle.js
+/src/resources/js/dist/fa.min.js
+/src/resources/style/style.css
+/src/resources/public/images/
+.DS_Store
+*.txt
