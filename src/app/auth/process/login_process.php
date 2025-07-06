@@ -25,6 +25,7 @@ if (isset($_POST['login'])) {
             $_SESSION['user'] = [
                 'id' => $user['id'],
                 'username' => $user['username'],
+                'email' => $user['email']
             ];
 
             session_regenerate_id();
