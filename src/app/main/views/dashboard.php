@@ -25,8 +25,12 @@ $user_id = $_SESSION['user']['id'];
     <link rel="stylesheet" href="../../../resources/style/style.css">
     <style> [x-cloak] { display: none !important; } </style>
 </head>
-<body x-data="{ slideBarOpen : false }">
+<body x-data="{ slideBarOpen : false, logoutModal : false }">
     <?php include __DIR__ . '../../../components/header.php'; ?>
+
+    <div x-cloak >
+        <?php include __DIR__ . '../../../components/logout_modal.php' ?>
+    </div>
 
     <div
         x-cloak
@@ -38,7 +42,7 @@ $user_id = $_SESSION['user']['id'];
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
         @click="slideBarOpen = false"
-        class="fixed inset-0 bg-black/40 bg-opacity-50 backdrop-blur-xs z-50""></div>
+        class="fixed inset-0 bg-black/40 bg-opacity-50 backdrop-blur-xs z-40""></div>
 
     <div x-cloak >
         <?php include __DIR__ . '../../../components/slidebar.php'; ?>
@@ -74,7 +78,7 @@ $user_id = $_SESSION['user']['id'];
                             x-transition:leave-end="opacity-0 max-h-0"
                             class="overflow-hidden"
                         >
-                            <p class="mt-2 text-sm text-gray-500 font-primary">
+                            <p class="mt-2 text-sm text-gray-500 font-primary text-justify">
                                 Pada halaman ini merupakan dashboard daripada website STAFFY. Semua informasi umum akan ditampilkan disini.
                             </p>
                         </div>
@@ -98,7 +102,7 @@ $user_id = $_SESSION['user']['id'];
                             x-transition:leave-end="opacity-0 max-h-0"
                             class="overflow-hidden"
                         >
-                            <p class="mt-2 text-sm text-gray-500 font-primary">
+                            <p class="mt-2 text-sm text-gray-500 font-primary text-justify">
                                 Pada halaman ini anda dapat menambahkan, mengedit, dan menghapus karyawan dari perusahaan anda.
                             </p>
                         </div>
@@ -122,7 +126,7 @@ $user_id = $_SESSION['user']['id'];
                             x-transition:leave-end="opacity-0 max-h-0"
                             class="overflow-hidden"
                         >
-                            <p class="mt-2 text-sm text-gray-500 font-primary">
+                            <p class="mt-2 text-sm text-gray-500 font-primary text-justify">
                                 Pada halaman ini anda dapat melakukan absensi karyawan yang sudah terdaftar pada website STAFFY
                             </p>
                         </div>
