@@ -25,20 +25,12 @@ $user_id = $_SESSION['user']['id'];
     <link rel="stylesheet" href="../../../../resources/style/style.css">
     <style> [x-cloak] { display: none !important; } </style>
 </head>
-<body x-data="{ slideBarOpen : false }">
+<body x-data="{ slideBarOpen : false, logoutModal : false }">
     <?php include __DIR__ . '../../../../components/header.php'; ?>
 
-    <div
-        x-cloak
-        x-show="slideBarOpen"
-        x-transition:enter="transition-opacity ease-linear duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition-opacity ease-linear duration-300"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        @click="slideBarOpen = false"
-        class="fixed inset-0 bg-black/40 bg-opacity-50 backdrop-blur-xs z-50""></div>
+    <div x-cloak >
+        <?php include __DIR__ . '../../../../components/logout_modal.php' ?>
+    </div>
 
     <div x-cloak >
         <?php include __DIR__ . '../../../../components/slidebar.php'; ?>
