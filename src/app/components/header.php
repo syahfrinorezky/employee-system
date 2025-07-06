@@ -6,7 +6,7 @@
                 @click="slideBarOpen = !slideBarOpen"
                 type="button" 
                 aria-label="hamburger" 
-                class="sm:hidden text-indigo-500 hover:text-indigo-600 hover:underline transition-all duration-300 ease-in-out">
+                class="lg:hidden text-indigo-500 hover:text-indigo-600 hover:underline transition-all duration-300 ease-in-out">
                 <i class="fa-solid fa-bars text-2xl"></i>
             </button>
         </div>

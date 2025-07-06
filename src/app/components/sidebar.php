@@ -11,7 +11,7 @@ $isDashboardActive = ($activePath == 'dashboard.php');
 
 ?>
 
-<div class="hidden sm:flex sticky top-0 h-screen flex-col w-1/4 p-8 bg-white shadow-md shadow-gray-300 border-r border-gray-300 overflow-y-auto">
+<div class="hidden lg:flex sticky top-0 h-screen flex-col w-1/4 p-8 bg-white shadow-md shadow-gray-300 border-r border-gray-300 overflow-y-auto">
     <div class="flex flex-col gap-5 mt-20">
         <div class="flex flex-col items-center justify-center gap-2">
             <div class="flex items-center justify-center w-12 h-12 aspect-square bg-gray-400 rounded-full">
