@@ -19,9 +19,9 @@ $isDashboardActive = ($activePath == 'dashboard.php');
     x-transition:leave="transition ease-in-out duration-300"
     x-transition:leave-start="translate-x-0"
     x-transition:leave-end="translate-x-full"
-    class="lg:hidden fixed top-0 right-0 w-2/3 h-full bg-white shadow-md shadow-gray-300 border-l border-gray-300 z-50 transform">
+    class="lg:hidden fixed top-0 right-0 w-2/3 h-full bg-white shadow-md shadow-gray-300 border-l border-gray-300 z-40 transform">
     <div class="flex flex-col gap-10 px-7 py-5">
-        <button @click="slideBarOpen = false" type="button" class="relative self-end">
+        <button @click="slideBarOpen = false" type="button" class="relative self-end cursor-pointer">
             <i class="fa-solid fa-xmark text-2xl"></i>
         </button>
         <div class="flex flex-col items-center justify-center gap-2">
@@ -32,6 +32,9 @@ $isDashboardActive = ($activePath == 'dashboard.php');
                 <h1 class="font-bold font-primary text-lg sm:text-2xl uppercase"><?= $username ?></h1>
                 <p class="text-xs sm:text-base text-gray-500"><?= $user_email ?></p>
             </div>
+            <button @click="logoutModal = !logoutModal" type="button">
+                <p class="text-xs text-red-500 hover:text-red-600 hover:underline transition-all duration-300 ease-in-out cursor-pointer">Logout</p>
+            </button>
         </div>
         <div class="flex-grow border-t border-gray-300"></div>
         <ul class="flex flex-col">
