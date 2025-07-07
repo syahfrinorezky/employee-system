@@ -94,11 +94,12 @@ $result = $stmt->get_result();
 <body x-data="{ 
     slideBarOpen : false, 
     logoutModal : false,
+    addModal : false,
     currentPage: <?= $current_page ?>,
     totalRecords: <?= $total_records ?>,
     recordsPerPage: <?= $records_per_page ?>,
     totalPages: <?= $total_pages ?>,
-    searchData: <?= 'htmlspecialchars($search, ENT_QUOTES)' ?>,
+    searchData: '<?= htmlspecialchars($search, ENT_QUOTES) ?>',
     
     get startRecord() {
         return (this.currentPage - 1) * this.recordsPerPage + 1;
@@ -162,7 +163,7 @@ $result = $stmt->get_result();
                         <h1 class="font-bold font-primary text-lg text-indigo-500">Daftar Karyawan</h1>
                     </div>
                     <?php if ($total_records > 0): ?>
-                        <button type="button" class="flex items-center justify-center w-10 h-10 bg-green-500 hover:bg-green-600 rounded-lg cursor-pointer">
+                        <button @click="addModal = !addModal" type="button" class="flex items-center justify-center w-10 h-10 bg-green-500 hover:bg-green-600 rounded-lg cursor-pointer">
                             <i class="fa-solid fa-plus text-lg text-white"></i>
                         </button>
                     <?php endif; ?>
