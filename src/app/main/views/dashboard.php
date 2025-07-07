@@ -39,7 +39,7 @@ $user_id = $_SESSION['user']['id'];
     <div class="flex bg-white">
         <?php include __DIR__ . '../../../components/sidebar.php'; ?>
         
-        <div class="flex flex-col gap-10 w-full sm:overflow-y-auto p-4 sm:p-8 mt-20 sm:mt-12">
+        <div class="flex flex-col gap-7 w-full sm:overflow-y-auto p-4 sm:p-8 mt-20 sm:mt-12">
             <h1 class="text-2xl font-bold font-secondary text-gray-800"><span class="text-indigo-500">Dashboard</span> Informasi</h1>
             <div class="flex flex-col gap-5 border border-gray-300 rounded-lg p-4">
                 <div aria-label="text" class="flex flex-col gap-1">
