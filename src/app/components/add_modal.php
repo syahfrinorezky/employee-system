@@ -4,7 +4,7 @@ $processPath = "/employee-system/src/app/main/process/";
 
 ?>
 
-<div x-cloak x-data="{ step: 1, totalSteps: 3 }">
+<div x-cloak x-data="{ step: 1, totalSteps: 4 }">
     <div
         x-cloak
         x-show="addModal"
@@ -32,7 +32,7 @@ $processPath = "/employee-system/src/app/main/process/";
                     <h2 class="text-lg font-semibold text-indigo-500">Informasi Karyawan</h2>
                     <div class="flex flex-col gap-1">
                         <label for="nip" class=" font-medium text-primary text-gray-800">NIP</label>
-                        <input type="text" id="nip" name="nip" value="EMP" class="border border-gray-300 rounded p-2 w-full" readonly />
+                        <input type="text" id="nip" name="nip" value="EMP-" class="border border-gray-300 rounded p-2 w-full" readonly />
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="nama_lengkap" class="font-medium text-primary text-gray-800">Nama Lengkap</label>
@@ -48,8 +48,32 @@ $processPath = "/employee-system/src/app/main/process/";
                     </div>
                 </div>
 
-                <!-- Step 2: Informasi Pekerjaan/Jabatan Karyawan -->
+                <!-- Step 2: Education Info -->
                 <div x-show="step === 2" class="flex flex-col gap-2">
+                    <h2 class="text-lg font-semibold">Informasi Pendidikan</h2>
+                    <div class="flex flex-col gap-1">
+                        <label for="pendidikan_terakhir" class="block">Pendidikan Terakhir:</label>
+                        <select id="pendidikan_terakhir" name="pendidikan_terakhir" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
+                            <option value="">Pilih Pendidikan Terakhir</option>
+                            <option value="SMA">SMA</option>
+                            <option value="D3">D3</option>
+                            <option value="S1">S1</option>
+                            <option value="S2">S2</option>
+                            <option value="S3">S3</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label for="nama_sekolah" class="block">Nama Sekolah</label>
+                        <input type="text" id="nama_sekolah" name="nama_sekolah" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label for="jurusan" class="block">Jurusan</label>
+                        <input type="text" id="jurusan" name="jurusan" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                    </div>
+                </div>
+
+                <!-- Step 3: Informasi Pekerjaan/Jabatan Karyawan -->
+                <div x-show="step === 3" class="flex flex-col gap-2">
                     <h2 class="text-lg font-semibold text-indigo-500">Informasi Pekerjaan</h2>
                     <div class="flex flex-col gap-1">
                         <label for="jabatan" class="block">Jabatan </label>
@@ -78,27 +102,24 @@ $processPath = "/employee-system/src/app/main/process/";
                     </div>
                 </div>
 
-                <!-- Step 3: Education Info -->
-                <div x-show="step === 3" class="flex flex-col gap-2">
-                    <h2 class="text-lg font-semibold">Informasi Pendidikan</h2>
+                <!-- Step 4 : Informasi terkait kontrak karyawan -->
+                <div x-show="step === 4" class="flex flex-col gap-2">
+                    <h2 class="text-lg font-semibold text-indigo-500">Informasi Kontrak</h2>
                     <div class="flex flex-col gap-1">
-                        <label for="pendidikan_terakhir" class="block">Pendidikan Terakhir:</label>
-                        <select id="pendidikan_terakhir" name="pendidikan_terakhir" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
-                            <option value="">Pilih Pendidikan Terakhir</option>
-                            <option value="SMA">SMA</option>
-                            <option value="D3">D3</option>
-                            <option value="S1">S1</option>
-                            <option value="S2">S2</option>
-                            <option value="S3">S3</option>
+                        <label for="jenis_kontrak" class="block">Jenis Kontrak</label>
+                        <select id="jenis_kontrak" name="jenis_kontrak" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
+                            <option value="">Pilih Jenis Kontrak</option>
+                            <option value="Tetap">Tetap</option>
+                            <option value="Kontrak">Kontrak</option>
                         </select>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label for="nama_sekolah" class="block">Nama Sekolah</label>
-                        <input type="text" id="nama_sekolah" name="nama_sekolah" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                        <label for="durasi_kontrak_bulan" class="block">Durasi Kontrak (bulan)</label>
+                        <input type="number" id="durasi_kontrak_bulan" name="durasi_kontrak_bulan" min="1" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label for="jurusan" class="block">Jurusan</label>
-                        <input type="text" id="jurusan" name="jurusan" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                        <label for="tanggal_berakhir_kontrak" class="block">Tanggal Berakhir Kontrak</label>
+                        <input type="date" id="tanggal_berakhir_kontrak" name="tanggal_berakhir_kontrak" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
                     </div>
                 </div>
 
