@@ -226,7 +226,7 @@ $result = $stmt->get_result();
                         <video src="../../../../resources/public/icon/nodata.mp4" autoplay loop muted class="w-40 h-40 object-cover"></video>
                         <div class="flex flex-col gap-3">
                             <p class="text-sm text-gray-500"><?= empty($search) ? 'Tidak ada data karyawan' : ' Data karyawan tidak ditemukan' ?></p>
-                            <button type="button" class="border border-green-500 bg-white hover:bg-green-500 text-green-500 text-sm hover:text-white font-bold uppercase p-2 rounded-lg cursor-pointer transition-all duration-300 ease-in-out">Tambah Karyawan</button>
+                            <button @click ="addModal = !addModal" type="button" class="border border-green-500 bg-white hover:bg-green-500 text-green-500 text-sm hover:text-white font-bold uppercase p-2 rounded-lg cursor-pointer transition-all duration-300 ease-in-out">Tambah Karyawan</button>
                         </div>
                     </div>
                 <?php endif; ?>
