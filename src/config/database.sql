@@ -78,40 +78,6 @@ CREATE TABLE IF NOT EXISTS attendances (
     UNIQUE KEY unique_attendance (karyawan_id, tanggal)
 );
 
--- Insert sample data
-INSERT INTO users (username, password, nama, email) VALUES
-('admin', 'admin123', 'Administrator', 'admin@company.com');
-
-INSERT INTO employees (
-    nip, nama_lengkap, email, no_hp, alamat, tanggal_lahir, jenis_kelamin,
-    jabatan, departemen, tanggal_masuk, jenis_kontrak, durasi_kontrak_bulan,
-    tanggal_berakhir_kontrak, pendidikan_terakhir, nama_sekolah, jurusan
-) VALUES
-('EMP001', 'John Doe', 'john@company.com', '081234567890', 'Jl. Merdeka No. 123', '1990-05-15', 'Laki-laki',
- 'Manager', 'IT', '2023-01-01', 'Tetap', NULL, NULL, 'S1', 'Universitas Indonesia', 'Teknik Informatika'),
-
-('EMP002', 'Jane Smith', 'jane@company.com', '081234567891', 'Jl. Sudirman No. 456', '1992-08-20', 'Perempuan',
- 'Staff', 'HR', '2023-03-15', 'Kontrak', 12, '2024-03-14', 'S1', 'Universitas Gadjah Mada', 'Psikologi'),
-
-('EMP003', 'Bob Wilson', 'bob@company.com', '081234567892', 'Jl. Thamrin No. 789', '1995-12-10', 'Laki-laki',
- 'Staff', 'Finance', '2023-06-01', 'Tetap', NULL, NULL, 'D3', 'Politeknik Negeri Jakarta', 'Akuntansi');
-
-INSERT INTO attendances (karyawan_id, tanggal, jam_masuk, jam_keluar, status_kehadiran, keterangan) VALUES
-(1, '2025-01-01', '08:00:00', '17:00:00', 'Hadir', 'Masuk tepat waktu'),
-(1, '2025-01-02', '08:15:00', '17:00:00', 'Terlambat', 'Terlambat 15 menit'),
-(1, '2025-01-03', NULL, NULL, 'Sakit', 'Demam'),
-
-(2, '2025-01-01', '08:00:00', '17:00:00', 'Hadir', 'Masuk tepat waktu'),
-(2, '2025-01-02', '08:00:00', '17:00:00', 'Hadir', 'Masuk tepat waktu'),
-(2, '2025-01-03', NULL, NULL, 'Izin', 'Keperluan keluarga'),
-
-(3, '2025-01-01', '08:00:00', '17:00:00', 'Hadir', 'Masuk tepat waktu'),
-(3, '2025-01-02', '08:00:00', '17:00:00', 'Hadir', 'Masuk tepat waktu'),
-(3, '2025-01-03', '08:00:00', '17:00:00', 'Hadir', 'Masuk tepat waktu');
-
-
-
-
 -- Insert sample employees with user_id 3
 INSERT INTO employees (user_id, nip, nama_lengkap, email, no_hp, alamat, tanggal_lahir, jenis_kelamin, created_at) VALUES
 (1, 'EMP001', 'Ahmad Rizky Pratama', 'ahmad.rizky@company.com', '08123456789', 'Jl. Sudirman No. 123, Jakarta', '1990-05-15', 'Laki-laki', '2024-01-15 08:00:00'),
