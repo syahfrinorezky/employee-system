@@ -79,6 +79,10 @@ $stmt->bind_param($types, ...$params);
 $stmt->execute();
 $result = $stmt->get_result();
 
+$success = $_SESSION['success'] ?? [];
+$delete = $_SESSION['delete'] ?? [];
+unset($_SESSION['success']);
+unset($_SESSION['delete']);
 
 ?>
 
@@ -171,6 +175,56 @@ $result = $stmt->get_result();
 
                 <div class="flex-grow mx-3 border-t border-gray-300"></div>
 
+                <?php if (!empty($success)): ?>
+                    <div
+                        x-cloak
+                        x-data="{
+                            show : false, visible : false
+                        }" 
+                        x-init="
+                        setTimeout(() => { 
+                            show = true; 
+                            visible = true; 
+                            setTimeout(() => visible = false, 3000);
+                        }, 1000);" 
+                        x-show="visible"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-300 transform"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0" 
+                        class="p-2 mx-3 flex items-center gap-x-2 bg-green-500/40 rounded-lg border border-green-500">
+                        <i class="fa-solid fa-check text-white text-sm"></i>
+                        <p class="text-sm text-white text-shadow-sm text-shadow-gray-400"><?= $success; ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($delete)): ?>
+                    <div
+                        x-cloak
+                        x-data="{
+                            show : false, visible : false
+                        }" 
+                        x-init="
+                        setTimeout(() => { 
+                            show = true; 
+                            visible = true; 
+                            setTimeout(() => visible = false, 3000);
+                        }, 1000);" 
+                        x-show="visible"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-300 transform"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0" 
+                        class="p-2 mx-3 flex items-center gap-x-2 bg-red-500/40 rounded-lg border border-red-500">
+                        <i class="fa-solid fa-trash text-white text-sm"></i>
+                        <p class="text-sm text-white text-shadow-sm text-shadow-gray-400"><?= $delete; ?></p>
+                    </div>
+                <?php endif; ?>
+
                 <?php if ($result->num_rows > 0): ?>
                     <div class="p-3">
                         <div class="relative overflow-auto max-h-[400px] rounded-lg">
@@ -188,12 +242,12 @@ $result = $stmt->get_result();
                                 <tbody class="divide-y divide-gray-300">
                                     <?php
                                     $no = $offset + 1;
-                                    while ($employee = $result->fetch_assoc()) :
-                                        $nip = $employee['nip'];
-                                        $nama = $employee['nama_lengkap'];
-                                        $email = $employee['email'];
-                                        $no_hp = $employee['no_hp'];
-                                        ?>
+                    while ($employee = $result->fetch_assoc()) :
+                        $nip = $employee['nip'];
+                        $nama = $employee['nama_lengkap'];
+                        $email = $employee['email'];
+                        $no_hp = $employee['no_hp'];
+                        ?>
                                         <tr class="hover:bg-gray-200">
                                             <td class="p-3 text-center"><?= $no++ ?></td>
                                             <td class="p-3"><?= $nip ?></td>
@@ -208,9 +262,12 @@ $result = $stmt->get_result();
                                                     <button type="button" class="bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer">
                                                         <i class="fa-solid fa-pen-to-square text-white text-sm"></i>
                                                     </button>
-                                                    <button type="button" class="bg-red-500 hover:bg-red-700 flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer">
-                                                        <i class="fa-solid fa-trash text-white text-sm"></i>
-                                                    </button>
+                                                    <form action="../../process/delete_employee.php" method="post">
+                                                        <input type="hidden" name="nip" value="<?= $nip ?>">
+                                                        <button type="submit" class="bg-red-500 hover:bg-red-700 flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer">
+                                                            <i class="fa-solid fa-trash text-white text-sm"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>
