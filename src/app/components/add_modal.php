@@ -86,7 +86,7 @@ $processPath = "/employee-system/src/app/main/process/";
                         </select>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label for="departemen" class="block">Departemen:</label>
+                        <label for="departemen" class="block">Departemen</label>
                         <select id="departemen" name="departemen" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
                             <option value="">Pilih Divisi</option>
                             <option value="IT">IT</option>
@@ -97,7 +97,7 @@ $processPath = "/employee-system/src/app/main/process/";
                         </select>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label for="tanggal_masuk" class="block">Tanggal Masuk:</label>
+                        <label for="tanggal_masuk" class="block">Tanggal Masuk</label>
                         <input type="date" id="tanggal_masuk" name="tanggal_masuk" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
                     </div>
                 </div>

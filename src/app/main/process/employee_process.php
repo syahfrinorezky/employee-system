@@ -74,6 +74,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['tanggal_masuk'] = 'Tanggal masuk karyawan tidak boleh kosong';
     }
 
+    if (empty($jenis_kontrak)) {
+        $errors['jenis_kontrak'] = 'Jenis kontrak karyawan tidak boleh kosong';
+    }
+
+    if (empty($durasi_kontrak_bulan)) {
+        $errors['durasi_kontrak_bulan'] = 'Durasi kontrak karyawan tidak boleh kosong';
+    }
+
+    if (empty($tanggal_berakhir_kontrak)) {
+        $errors['tanggal_berakhir_kontrak'] = 'Tanggal berakhir kontrak karyawan tidak boleh kosong';
+    }
+
     // ngeformat tanggal masuk jadi tahun bulan hari untuk dimasukkan ke nip
     $tanggal_format = DateTime::createFromFormat('Y-m-d', $tanggal_masuk);
     if (!$tanggal_format) {
