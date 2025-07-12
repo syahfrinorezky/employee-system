@@ -30,21 +30,33 @@ $processPath = "/employee-system/src/app/main/process/";
                 <!-- Step 1: Employee Information -->
                 <div x-show="step === 1" class="flex flex-col gap-2">
                     <h2 class="text-lg font-semibold text-indigo-500">Informasi Karyawan</h2>
-                    <div class="flex flex-col gap-1">
-                        <label for="nip" class=" font-medium text-primary text-gray-800">NIP</label>
-                        <input type="text" id="nip" name="nip" value="EMP-" class="border border-gray-300 rounded p-2 w-full" readonly />
+                    <div class="flex flex-col sm:flex-row gap-y-2 sm:gap-x-3">
+                        <div class="flex flex-col gap-1">
+                            <label for="nip" class=" font-medium text-primary text-gray-800">NIP</label>
+                            <input type="text" id="nip" name="nip" value="EMP-" class="border border-gray-300 rounded p-2 w-full cursor-not-allowed" readonly />
+                        </div>
+                        <div class="flex flex-col gap-1 sm:w-full">
+                            <label for="nama_lengkap" class="font-medium text-primary text-gray-800">Nama Lengkap</label>
+                            <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Masukkan Nama Lengkap" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-y-2 sm:gap-x-3">
+                        <div class="flex flex-col gap-1 sm:w-1/3">
+                            <label for="email" class="font-medium text-primary text-gray-800">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Masukkan Email" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                        </div>
+                        <div class="flex flex-col gap-1 sm:w-1/3">
+                            <label for="no_hp" class="font-medium text-primary text-gray-800">No HP</label>
+                            <input type="text" id="no_hp" name="no_hp" placeholder="Masukkan No HP" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                        </div>
+                        <div class="flex flex-col gap-1 sm:w-1/3">
+                            <label for="tanggal_lahir" class="font-medium text-primary text-gray-800">Tanggal Lahir</label>
+                            <input type="date" id="tanggal_lahir" name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                        </div>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label for="nama_lengkap" class="font-medium text-primary text-gray-800">Nama Lengkap</label>
-                        <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Masukkan Nama Lengkap" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="email" class="font-medium text-primary text-gray-800">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Masukkan Email" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="no_hp" class="font-medium text-primary text-gray-800">No HP</label>
-                        <input type="text" id="no_hp" name="no_hp" placeholder="Masukkan No HP" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                        <label for="alamat" class=" font-medium text-primary text-gray-800">Alamat</label>
+                        <textarea id="alamat" name="alamat" placeholder="Masukkan Alamat" class="border border-gray-300 rounded p-2 w-full" required></textarea>
                     </div>
                 </div>
 
@@ -64,11 +76,11 @@ $processPath = "/employee-system/src/app/main/process/";
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="nama_sekolah" class="block">Nama Sekolah</label>
-                        <input type="text" id="nama_sekolah" name="nama_sekolah" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                        <input type="text" id="nama_sekolah" name="nama_sekolah" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="jurusan" class="block">Jurusan</label>
-                        <input type="text" id="jurusan" name="jurusan" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                        <input type="text" id="jurusan" name="jurusan" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
                     </div>
                 </div>
 
