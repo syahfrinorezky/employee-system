@@ -103,25 +103,31 @@ $processPath = "/employee-system/src/app/main/process/";
                 </div>
 
                 <!-- Step 4 : Informasi terkait kontrak karyawan -->
-                <div x-show="step === 4" class="flex flex-col gap-2">
+                <div x-show="step === 4" x-data="kontrakForm()" class="flex flex-col gap-2">
                     <h2 class="text-lg font-semibold text-indigo-500">Informasi Kontrak</h2>
                     <div class="flex flex-col gap-1">
                         <label for="jenis_kontrak" class="block">Jenis Kontrak</label>
-                        <select id="jenis_kontrak" name="jenis_kontrak" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
+                        <select x-model="jenisKontrak" id="jenis_kontrak" name="jenis_kontrak" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
                             <option value="">Pilih Jenis Kontrak</option>
                             <option value="Tetap">Tetap</option>
                             <option value="Kontrak">Kontrak</option>
                         </select>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1" x-show="jenisKontrak === 'Kontrak'" x-transition>
                         <label for="durasi_kontrak_bulan" class="block">Durasi Kontrak (bulan)</label>
-                        <input type="number" id="durasi_kontrak_bulan" name="durasi_kontrak_bulan" min="1" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                        <input type="number" x-model.number="durasiBulan" id="durasi_kontrak_bulan" name="durasi_kontrak_bulan" min="1"
+                            class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1" x-show="jenisKontrak === 'Kontrak'" x-transition>
                         <label for="tanggal_berakhir_kontrak" class="block">Tanggal Berakhir Kontrak</label>
-                        <input type="date" id="tanggal_berakhir_kontrak" name="tanggal_berakhir_kontrak" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
+                        <input type="date" id="tanggal_berakhir_kontrak" name="tanggal_berakhir_kontrak"
+                            :value="tanggalBerakhir" readonly
+                            class="cursor-not-allowed bg-gray-100 text-gray-500 outline outline-gray-300 transition-all duration-300 ease-in-out rounded p-2 w-full" />
                     </div>
+                    <input type="hidden" name="durasi_kontrak_bulan" :value="jenisKontrak === 'Tetap' ? 'Tetap' : durasiBulan" />
+                    <input type="hidden" name="tanggal_berakhir_kontrak" :value="jenisKontrak === 'Tetap' ? '-' : tanggalBerakhir" />
                 </div>
+
 
                <div class="flex justify-between mt-4">
                     <!-- Kembali Button (visible on ALL steps, but disabled on Step 1) -->
@@ -158,3 +164,20 @@ $processPath = "/employee-system/src/app/main/process/";
         </div>
     </div>
 </div>
+
+
+<script>
+function kontrakForm() {
+    return {
+        jenisKontrak: '',
+        tanggalMasuk: '',
+        durasiBulan: '',
+        get tanggalBerakhir() {
+            if (this.jenisKontrak !== 'Kontrak' || !this.tanggalMasuk || !this.durasiBulan) return '';
+            const masuk = new Date(this.tanggalMasuk);
+            masuk.setMonth(masuk.getMonth() + parseInt(this.durasiBulan));
+            return masuk.toISOString().split('T')[0]; // format YYYY-MM-DD
+        }
+    }
+}
+</script>
