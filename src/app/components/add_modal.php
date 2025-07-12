@@ -41,15 +41,17 @@ $processPath = "/employee-system/src/app/main/process/";
                         </div>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-y-2 sm:gap-x-3">
-                        <div class="flex flex-col gap-1 sm:w-1/3">
-                            <label for="email" class="font-medium text-primary text-gray-800">Email</label>
-                            <input type="email" id="email" name="email" placeholder="Masukkan Email" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                        <div class="flex gap-x-3 sm:w-1/2">
+                            <div class="flex flex-col gap-1 w-1/2">
+                                <label for="email" class="font-medium text-primary text-gray-800">Email</label>
+                                <input type="email" id="email" name="email" placeholder="Masukkan Email" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                            </div>
+                            <div class="flex flex-col gap-1 w-1/2">
+                                <label for="no_hp" class="font-medium text-primary text-gray-800">No HP</label>
+                                <input type="text" id="no_hp" name="no_hp" placeholder="Masukkan No HP" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                            </div>
                         </div>
-                        <div class="flex flex-col gap-1 sm:w-1/3">
-                            <label for="no_hp" class="font-medium text-primary text-gray-800">No HP</label>
-                            <input type="text" id="no_hp" name="no_hp" placeholder="Masukkan No HP" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
-                        </div>
-                        <div class="flex flex-col gap-1 sm:w-1/3">
+                        <div class="flex flex-col gap-1 sm:w-1/2">
                             <label for="tanggal_lahir" class="font-medium text-primary text-gray-800">Tanggal Lahir</label>
                             <input type="date" id="tanggal_lahir" name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
                         </div>
@@ -64,7 +66,7 @@ $processPath = "/employee-system/src/app/main/process/";
                 <div x-show="step === 2" class="flex flex-col gap-2">
                     <h2 class="text-lg font-semibold">Informasi Pendidikan</h2>
                     <div class="flex flex-col gap-1">
-                        <label for="pendidikan_terakhir" class="block">Pendidikan Terakhir:</label>
+                        <label for="pendidikan_terakhir" class="block">Pendidikan Terakhir</label>
                         <select id="pendidikan_terakhir" name="pendidikan_terakhir" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
                             <option value="">Pilih Pendidikan Terakhir</option>
                             <option value="SMA">SMA</option>
@@ -75,7 +77,7 @@ $processPath = "/employee-system/src/app/main/process/";
                         </select>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label for="nama_sekolah" class="block">Nama Sekolah</label>
+                        <label for="nama_sekolah" class="block">Nama Instansi</label>
                         <input type="text" id="nama_sekolah" name="nama_sekolah" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
                     </div>
                     <div class="flex flex-col gap-1">
