@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama_lengkap = htmlspecialchars(trim($_POST['nama_lengkap']));
     $email = htmlspecialchars(trim($_POST['email']));
     $no_hp = htmlspecialchars(trim($_POST['no_hp']));
+    $alamat = htmlspecialchars(trim($_POST['alamat']));
+    $tanggal_lahir = $_POST['tanggal_lahir'] ?? null;
 
     // Data umum pendidikan dari karyawan
     $pendidikan_terakhir = $_POST['pendidikan_terakhir'] ?? null;
@@ -50,6 +52,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['no_hp'] = 'No. HP karyawan tidak boleh kosong';
     } elseif (!preg_match('/^[0-9+\-\s]+$/', $no_hp)) {
         $errors['no_hp'] = 'Format nomor HP tidak valid';
+    }
+
+    if (empty($alamat)) {
+        $errors['alamat'] = 'Alamat karyawan tidak boleh kosong';
+    } 
+
+    if (empty($tanggal_lahir)) {
+        $errors['tanggal_lahir'] = 'Tanggal lahir karyawan tidak boleh kosong';
+    } elseif (!DateTime::createFromFormat('Y-m-d', $tanggal_lahir)) {
+        $errors['tanggal_lahir'] = 'Format tanggal lahir tidak valid';
     }
 
     // Pengecekan form - data pendidikan
@@ -176,9 +188,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $connection->begin_transaction();
 
         // Insert ke tabel employees
-        $insertEmployee = "INSERT INTO employees (user_id, nip, nama_lengkap, email, no_hp) VALUES (?, ?, ?, ?, ?)";
+        $insertEmployee = "INSERT INTO employees (user_id, nip, nama_lengkap, email, no_hp, alamat, tanggal_lahir) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $connection->prepare($insertEmployee);
-        $stmt->bind_param('sssss', $user_id, $nip, $nama_lengkap, $email, $no_hp);
+        $stmt->bind_param('sssssss', $user_id, $nip, $nama_lengkap, $email, $no_hp, $alamat, $tanggal_lahir);
 
         if (!$stmt->execute()) {
             throw new Exception('Gagal menyimpan data karyawan');
