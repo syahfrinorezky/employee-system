@@ -100,7 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($tanggal_masuk)) {
         $tanggal_format = DateTime::createFromFormat('Y-m-d', $tanggal_masuk);
         if ($tanggal_format) {
-            $nip = $nip_awal . $tanggal_format->format('Ymd'); // hasilnya: EMP-20231001
+            $random_digit = mt_rand(10, 99);
+            $nip = $nip_awal . $tanggal_format->format('Ymd') . $random_digit; // hasilnya: EMP-20231001(random_digit)
         } else {
             $errors['tanggal_masuk'] = 'Format tanggal tidak valid';
         }

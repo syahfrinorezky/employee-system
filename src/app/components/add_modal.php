@@ -129,8 +129,8 @@ $processPath = "/employee-system/src/app/main/process/";
                 </div>
 
 
-               <div class="flex justify-between mt-4">
-                    <!-- Kembali Button (visible on ALL steps, but disabled on Step 1) -->
+                <div class="flex justify-between mt-4">
+                    
                     <button 
                         type="button" 
                         @click="step > 1 ? step-- : null" 
@@ -141,7 +141,7 @@ $processPath = "/employee-system/src/app/main/process/";
                         Kembali
                     </button>
                     
-                    <!-- Next Button (visible if not last step) -->
+                    
                     <button 
                         type="button" 
                         @click="step < totalSteps ? step++ : null" 
@@ -151,7 +151,7 @@ $processPath = "/employee-system/src/app/main/process/";
                         Selanjutnya
                     </button>
                     
-                    <!-- Submit Button (visible only on last step) -->
+                    
                     <button 
                         type="submit" 
                         class="bg-indigo-500 hover:bg-indigo-600 text-white rounded px-4 py-2 cursor-pointer" 
