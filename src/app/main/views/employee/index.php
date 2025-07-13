@@ -84,6 +84,7 @@ $delete = $_SESSION['delete'] ?? [];
 unset($_SESSION['success']);
 unset($_SESSION['delete']);
 
+$_SESSION['employee_detail'] = true;
 ?>
 
 <!DOCTYPE html>
@@ -256,7 +257,7 @@ unset($_SESSION['delete']);
                                             <td class="p-3 text-center"><?= $no_hp ?></td>
                                             <td class="p-3">
                                                 <div class="flex justify-center gap-2">
-                                                    <a href="./detail.php?id=<?= $employee['id'] ?>" class="bg-indigo-500 hover:bg-indigo-600 flex items-center justify-center w-8 h-8 rounded-lg">
+                                                    <a href="./detail.php?nip=<?= $employee['nip'] ?>" id="employee_detail" name="employee_detail" class="bg-indigo-500 hover:bg-indigo-600 flex items-center justify-center w-8 h-8 rounded-lg">
                                                         <i class="fa-solid fa-circle-info text-white text-sm"></i>
                                                     </a>
                                                     <button type="button" class="bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer">
