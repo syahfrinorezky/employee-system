@@ -85,6 +85,7 @@ unset($_SESSION['success']);
 unset($_SESSION['delete']);
 
 $_SESSION['employee_detail'] = true;
+$_SESSION['employee_edit'] = true;
 ?>
 
 <!DOCTYPE html>
