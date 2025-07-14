@@ -244,12 +244,12 @@ $_SESSION['employee_edit'] = true;
                                 <tbody class="divide-y divide-gray-300">
                                     <?php
                                     $no = $offset + 1;
-                    while ($employee = $result->fetch_assoc()) :
-                        $nip = $employee['nip'];
-                        $nama = $employee['nama_lengkap'];
-                        $email = $employee['email'];
-                        $no_hp = $employee['no_hp'];
-                        ?>
+                                    while ($employee = $result->fetch_assoc()) :
+                                        $nip = $employee['nip'];
+                                        $nama = $employee['nama_lengkap'];
+                                        $email = $employee['email'];
+                                        $no_hp = $employee['no_hp'];
+                                        ?>
                                         <tr class="hover:bg-gray-200">
                                             <td class="p-3 text-center"><?= $no++ ?></td>
                                             <td class="p-3"><?= $nip ?></td>
