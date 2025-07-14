@@ -1,6 +1,6 @@
 /node_modules
-/src/resources/js/dist/app.bundle.js
-/src/resources/js/dist/fa.min.js
+/src/resources/js/dist/
+/src/resources/js/dist/
 /src/resources/style/style.css
 /src/resources/public/images/
 /src/config/configuration.php
