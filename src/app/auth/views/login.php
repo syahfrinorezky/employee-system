@@ -102,7 +102,7 @@ unset($_SESSION['success']);
                     </label>
                     <button type="submit" name="login" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold uppercase p-2 rounded-lg cursor-pointer">Login</button>
                     <div class="flex flex-col items-center gap-4">
-                        <p class="text-sm text-gray-500">Lupa password? <a href="" class="text-indigo-500 hover:text-indigo-600 hover:underline transition-all duration-300 ease-in-out">Disini</a></p>
+                        <p class="text-sm text-gray-500">Lupa password? <a href="./forgotpass.php" class="text-indigo-500 hover:text-indigo-600 hover:underline transition-all duration-300 ease-in-out">Disini</a></p>
                         <div class="relative flex items-center w-full">
                             <div class="flex-grow border-t border-gray-300"></div>
                             <span class="mx-4 text-sm text-gray-400">atau</span>
