@@ -260,9 +260,9 @@ $_SESSION['employee_detail'] = true;
                                                     <a href="./detail.php?nip=<?= $employee['nip'] ?>" id="employee_detail" name="employee_detail" class="bg-indigo-500 hover:bg-indigo-600 flex items-center justify-center w-8 h-8 rounded-lg">
                                                         <i class="fa-solid fa-circle-info text-white text-sm"></i>
                                                     </a>
-                                                    <button type="button" class="bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer">
+                                                    <a href="./edit.php?nip=<?= $employee['nip'] ?>" id="employee_edit" name="employee_edit" class="bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer">
                                                         <i class="fa-solid fa-pen-to-square text-white text-sm"></i>
-                                                    </button>
+                                                    </a>
                                                     <form action="../../process/delete_employee.php" method="post">
                                                         <input type="hidden" name="nip" value="<?= $nip ?>">
                                                         <button type="submit" class="bg-red-500 hover:bg-red-700 flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer">
