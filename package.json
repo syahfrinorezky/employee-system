@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "copy:fa" : "cp ./node_modules/@fortawesome/fontawesome-free/css/all.min.css ./src/resources/js/dist/icon.min.css",
-    "dev:css-build": "postcss ./src/resources/style/main.css -o ./src/resources/style/style.css",
+    "buil:css": "postcss ./src/resources/style/main.css -o ./src/resources/style/style.css",
     "dev:css": "postcss ./src/resources/style/main.css -o ./src/resources/style/style.css --watch",
-    "dev:js-build": "npx esbuild src/resources/js/main/app.js --bundle --outfile=src/resources/js/dist/app.bundle.js",
+    "build:js": "npx esbuild src/resources/js/main/app.js --bundle --outfile=src/resources/js/dist/app.bundle.js",
     "dev:js": "npx esbuild src/resources/js/main/app.js --bundle --outfile=src/resources/js/dist/app.bundle.js --watch",
-    "build": "concurrently \"npm run copy:fa\" \"npm run dev:css-build\" \"npm run dev:js-build\"",
+    "build": "concurrently \"npm run copy:fa\" \"npm run dev:css-build\" \"npm run build:js\"",
     "dev": "concurrently \"npm run dev:css\" \"npm run dev:js\""
   },
   "repository": {
