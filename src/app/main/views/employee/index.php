@@ -9,7 +9,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if (!isset($_SESSION['user'])) {
-    header("Location: ../../auth/views/login.php");
+    header("Location: ../../../auth/views/login.php");
     exit();
 }
 
