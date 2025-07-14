@@ -8,10 +8,19 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '../../../../../config/configuration.php';
 
+if (!isset($_SESSION['user'])) {
+    header("Location: ../../../auth/views/login.php");
+    exit();
+}
+
 if (!isset($_SESSION['employee_edit'])) {
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit();
 }
+
+$username = $_SESSION['user']['username'];
+$user_email = $_SESSION['user']['email'];
+$user_id = $_SESSION['user']['id'];
 
 $emp_id = $_GET['nip'] ?? null;
 
@@ -64,170 +73,247 @@ $EmpContract = $stmtEmpContract->get_result()->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDIT - <?= $employee['nip'] ?></title>
+    <title>Edit Karyawan - STAFFY</title>
     <link rel="stylesheet" href="../../../../resources/style/style.css">
+    <style> [x-cloak] { display: none !important; } </style>
 </head>
-<body>
-    <div x-data="{step: 1, totalSteps: 4 }" class="flex items-center justify-center min-h-screen">
-        <div class="bg-white w-4/5 sm:w-1/2 rounded-lg flex flex-col gap-4 items-center justify-center overflow-hidden border border-gray-300 shadow-md shadow-gray-300">
-            <div class="p-4 bg-indigo-500 w-full flex justify-between">
-                <div class="flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-user-pen text-base text-white"></i>
-                    <h1 class="text-base font-medium font-primary text-white">Edit Data</h1>
-                </div>
-                <a href="./index.php">
-                    <i class="fa-solid fa-right-from-bracket text-white"></i>
+<body x-data="{ 
+    slideBarOpen : false, 
+    logoutModal : false,
+    step: 1, 
+    totalSteps: 4 
+}">
+
+    <?php include __DIR__ . '../../../../components/header.php'; ?>
+
+    <div x-cloak >
+        <?php include __DIR__ . '../../../../components/logout_modal.php' ?>
+    </div>
+
+    <div x-cloak >
+        <?php include __DIR__ . '../../../../components/slidebar.php'; ?>
+    </div>
+
+    <div class="flex bg-white">
+        <?php include __DIR__ . '../../../../components/sidebar.php'; ?>
+        
+        <div class="flex flex-col gap-7 w-full sm:overflow-y-auto p-4 sm:p-8 mt-20 sm:mt-12">
+            <div class="flex justify-between items-center gap-2">
+                <h1 class="text-2xl font-bold font-secondary text-gray-800">Edit <span class="text-indigo-500">Karyawan</span></h1>
+                <a href="./index.php" class="flex items-center gap-x-2 p-2 sm:p-3 rounded-lg text-white bg-gray-500 hover:bg-gray-600">
+                    <i class="fa-solid fa-arrow-left text-lg"></i>
+                    Kembali
                 </a>
             </div>
-            <form action="../../process/empedit_process.php" method="post" class="p-4 flex flex-col w-full gap-3">
-                <!-- Step 1: Employee Information -->
-                <div x-show="step === 1" class="flex flex-col gap-2">
-                    <h2 class="text-lg font-semibold text-indigo-500">Informasi Karyawan</h2>
-                    <div class="flex flex-col sm:flex-row gap-y-2 sm:gap-x-3">
-                        <div class="flex flex-col gap-1 w-1/2">
-                            <label for="nip" class=" font-medium text-primary text-gray-800">NIP</label>
-                            <input type="text" id="nip" name="nip" value="<?= $employee['nip'] ?>" class="border border-gray-300 rounded p-2 w-full text-gray-600 cursor-not-allowed" readonly />
-                        </div>
-                        <div class="flex flex-col gap-1 sm:w-full">
-                            <label for="nama_lengkap" class="font-medium text-primary text-gray-800">Nama Lengkap</label>
-                            <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Masukkan Nama Lengkap" value="<?= $employee['nama_lengkap'] ?>" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
-                        </div>
+
+            <div class="bg-white rounded-lg border border-gray-300 shadow-md overflow-hidden">
+                <div class="p-4 bg-indigo-500 flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-user-pen text-white text-lg"></i>
+                        <h2 class="text-sm sm:text-lg font-medium font-primary text-white"><?= $employee['nip'] ?></h2>
                     </div>
-                    <div class="flex flex-col sm:flex-row gap-y-2 sm:gap-x-3">
-                        <div class="flex gap-x-3 sm:w-2/3">
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="email" class="font-medium text-primary text-gray-800">Email</label>
-                                <input type="email" id="email" name="email" placeholder="Masukkan Email" value="<?= $employee['email'] ?>" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                    <div class="text-white text-sm">
+                        <span x-text="step"></span> / <span x-text="totalSteps"></span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 h-2">
+                    <div class="bg-green-500 h-2 transition-all duration-300 ease-in-out" 
+                         :style="'width: ' + (step / totalSteps * 100) + '%'"></div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="p-6">
+                    <form action="../../process/empedit_process.php" method="post" class="flex flex-col gap-4">
+                        <!-- Step 1: Employee Information -->
+                        <div x-show="step === 1" class="flex flex-col gap-4">
+                            <h3 class="text-xl font-semibold text-indigo-500 border-b border-gray-200 pb-2">
+                                <i class="fa-solid fa-user mr-2"></i>Informasi Karyawan
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label for="nip" class="font-medium text-gray-800">NIP</label>
+                                    <input type="text" id="nip" name="nip" value="<?= $employee['nip'] ?>" 
+                                           class="border border-gray-300 rounded-lg p-3 w-full text-gray-600 cursor-not-allowed bg-gray-50" readonly />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label for="nama_lengkap" class="font-medium text-gray-800">Nama Lengkap</label>
+                                    <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Masukkan Nama Lengkap" 
+                                           value="<?= $employee['nama_lengkap'] ?>" required 
+                                           class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full" />
+                                </div>
                             </div>
-                            <div class="flex flex-col gap-1 w-1/2">
-                                <label for="no_hp" class="font-medium text-primary text-gray-800">No HP</label>
-                                <input type="text" id="no_hp" name="no_hp" placeholder="Masukkan No HP" value="<?= $employee['no_hp'] ?>" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label for="email" class="font-medium text-gray-800">Email</label>
+                                    <input type="email" id="email" name="email" placeholder="Masukkan Email" 
+                                           value="<?= $employee['email'] ?>" required
+                                           class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label for="no_hp" class="font-medium text-gray-800">No HP</label>
+                                    <input type="text" id="no_hp" name="no_hp" placeholder="Masukkan No HP" 
+                                           value="<?= $employee['no_hp'] ?>" required
+                                           class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full" />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label for="tanggal_lahir" class="font-medium text-gray-800">Tanggal Lahir</label>
+                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" 
+                                           value="<?= $employee['tanggal_lahir'] ?>" required
+                                           class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full" />
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label for="alamat" class="font-medium text-gray-800">Alamat</label>
+                                <textarea id="alamat" name="alamat" placeholder="Masukkan Alamat" rows="3"
+                                          class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full" required><?= $employee['alamat'] ?></textarea>
                             </div>
                         </div>
-                        <div class="flex flex-col gap-1 sm:w-1/3">
-                            <label for="tanggal_lahir" class="font-medium text-primary text-gray-800">Tanggal Lahir</label>
-                            <input type="date" id="tanggal_lahir" name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir" value="<?= $employee['tanggal_lahir'] ?>" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+
+                        <!-- Step 2: Education Info -->
+                        <div x-show="step === 2" class="flex flex-col gap-4">
+                            <h3 class="text-xl font-semibold text-indigo-500 border-b border-gray-200 pb-2">
+                                <i class="fa-solid fa-graduation-cap mr-2"></i>Informasi Pendidikan
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label for="pendidikan_terakhir" class="font-medium text-gray-800">Pendidikan Terakhir</label>
+                                    <select id="pendidikan_terakhir" name="pendidikan_terakhir" required 
+                                            class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full">
+                                        <option value="">Pilih Pendidikan Terakhir</option>
+                                        <option value="SMA" <?= $EmpEdu['pendidikan_terakhir'] === 'SMA' ? 'selected' : '' ?>>SMA</option>
+                                        <option value="D3" <?= $EmpEdu['pendidikan_terakhir'] === 'D3' ? 'selected' : '' ?>>D3</option>
+                                        <option value="S1" <?= $EmpEdu['pendidikan_terakhir'] === 'S1' ? 'selected' : '' ?>>S1</option>
+                                        <option value="S2" <?= $EmpEdu['pendidikan_terakhir'] === 'S2' ? 'selected' : '' ?>>S2</option>
+                                        <option value="S3" <?= $EmpEdu['pendidikan_terakhir'] === 'S3' ? 'selected' : '' ?>>S3</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label for="nama_sekolah" class="font-medium text-gray-800">Nama Instansi</label>
+                                    <input type="text" id="nama_sekolah" name="nama_sekolah" placeholder="Masukkan Nama Instansi"
+                                           value="<?= $EmpEdu['nama_sekolah'] ?>" required 
+                                           class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full" />
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label for="jurusan" class="font-medium text-gray-800">Jurusan</label>
+                                <input type="text" id="jurusan" name="jurusan" placeholder="Masukkan Jurusan"
+                                       value="<?= $EmpEdu['jurusan'] ?>" required 
+                                       class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="alamat" class=" font-medium text-primary text-gray-800">Alamat</label>
-                        <textarea id="alamat" name="alamat" placeholder="Masukkan Alamat" class="border border-gray-300 rounded p-2 w-full" required><?= $employee['alamat'] ?></textarea>
-                    </div>
-                </div>
 
-                <!-- Step 2: Education Info -->
-                <div x-show="step === 2" class="flex flex-col gap-2">
-                    <h2 class="text-lg font-semibold">Informasi Pendidikan</h2>
-                    <div class="flex flex-col gap-1">
-                        <label for="pendidikan_terakhir" class="block">Pendidikan Terakhir</label>
-                        <select id="pendidikan_terakhir" name="pendidikan_terakhir" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
-                            <option value="">Pilih Pendidikan Terakhir</option>
-                            <option value="SMA" <?= $EmpEdu['pendidikan_terakhir'] === 'SMA' ? 'selected' : '' ?>>SMA</option>
-                            <option value="D3" <?= $EmpEdu['pendidikan_terakhir'] === 'D3' ? 'selected' : '' ?>>D3</option>
-                            <option value="S1" <?= $EmpEdu['pendidikan_terakhir'] === 'S1' ? 'selected' : '' ?>>S1</option>
-                            <option value="S2" <?= $EmpEdu['pendidikan_terakhir'] === 'S2' ? 'selected' : '' ?>>S2</option>
-                            <option value="S3" <?= $EmpEdu['pendidikan_terakhir'] === 'S3' ? 'selected' : '' ?>>S3</option>
-                        </select>
-                    </div> 
-                    <div class="flex flex-col gap-1">
-                        <label for="nama_sekolah" class="block">Nama Instansi</label>
-                        <input type="text" id="nama_sekolah" name="nama_sekolah" value="<?= $EmpEdu['nama_sekolah'] ?>"  required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="jurusan" class="block">Jurusan</label>
-                        <input type="text" id="jurusan" name="jurusan" value="<?= $EmpEdu['jurusan'] ?>" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
-                    </div>
-                </div>
+                        <!-- Step 3: Informasi Pekerjaan/Jabatan Karyawan -->
+                        <div x-show="step === 3" class="flex flex-col gap-4">
+                            <h3 class="text-xl font-semibold text-indigo-500 border-b border-gray-200 pb-2">
+                                <i class="fa-solid fa-briefcase mr-2"></i>Informasi Pekerjaan
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label for="jabatan" class="font-medium text-gray-800">Jabatan</label>
+                                    <select id="jabatan" name="jabatan" required 
+                                            class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full">
+                                        <option value="">Pilih Jabatan</option>
+                                        <option value="Manager" <?= $EmpInfo['jabatan'] === 'Manager' ? 'selected' : '' ?>>Manager</option>
+                                        <option value="Supervisor" <?= $EmpInfo['jabatan'] === 'Supervisor' ? 'selected' : '' ?>>Supervisor</option>
+                                        <option value="Staff" <?= $EmpInfo['jabatan'] === 'Staff' ? 'selected' : '' ?>>Staff</option>
+                                        <option value="Intern" <?= $EmpInfo['jabatan'] === 'Intern' ? 'selected' : '' ?>>Intern</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label for="departemen" class="font-medium text-gray-800">Departemen</label>
+                                    <select id="departemen" name="departemen" required 
+                                            class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full">
+                                        <option value="">Pilih Departemen</option>
+                                        <option value="IT" <?= $EmpInfo['departemen'] === 'IT' ? 'selected' : '' ?>>IT</option>
+                                        <option value="HR" <?= $EmpInfo['departemen'] === 'HR' ? 'selected' : '' ?>>HR</option>
+                                        <option value="Finance" <?= $EmpInfo['departemen'] === 'Finance' ? 'selected' : '' ?>>Finance</option>
+                                        <option value="Marketing" <?= $EmpInfo['departemen'] === 'Marketing' ? 'selected' : '' ?>>Marketing</option>
+                                        <option value="Operations" <?= $EmpInfo['departemen'] === 'Operations' ? 'selected' : '' ?>>Operations</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label for="tanggal_masuk" class="font-medium text-gray-800">Tanggal Masuk</label>
+                                <input type="date" id="tanggal_masuk" name="tanggal_masuk" 
+                                       value="<?= $EmpInfo['tanggal_masuk'] ?>" required 
+                                       class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full" />
+                            </div>
+                        </div>
 
-                <!-- Step 3: Informasi Pekerjaan/Jabatan Karyawan -->
-                <div x-show="step === 3" class="flex flex-col gap-2">
-                    <h2 class="text-lg font-semibold text-indigo-500">Informasi Pekerjaan</h2>
-                    <div class="flex flex-col gap-1">
-                        <label for="jabatan" class="block">Jabatan </label>
-                        <select id="jabatan" name="jabatan" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
-                            <option value="">Pilih Jabatan</option>
-                            <option value="Manager" <?= $EmpInfo['jabatan'] === 'Manager' ? 'selected' : '' ?>>Manager</option>
-                            <option value="Supervisor" <?= $EmpInfo['jabatan'] === 'Supervisor' ? 'selected' : '' ?>>Supervisor</option>
-                            <option value="Staff" <?= $EmpInfo['jabatan'] === 'Staff' ? 'selected' : '' ?>>Staff</option>
-                            <option value="Intern" <?= $EmpInfo['jabatan'] === 'Intern' ? 'selected' : '' ?>>Intern</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="departemen" class="block">Departemen</label>
-                        <select id="departemen" name="departemen" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
-                            <option value="">Pilih Divisi</option>
-                            <option value="IT" <?= $EmpInfo['departemen'] === 'IT' ? 'selected' : '' ?>>IT</option>
-                            <option value="HR" <?= $EmpInfo['departemen'] === 'HR' ? 'selected' : '' ?>>HR</option>
-                            <option value="Finance" <?= $EmpInfo['departemen'] === 'Finance' ? 'selected' : '' ?>>Finance</option>
-                            <option value="Marketing" <?= $EmpInfo['departemen'] === 'Marketing' ? 'selected' : '' ?>>Marketing</option>
-                            <option value="Operations" <?= $EmpInfo['departemen'] === 'Operations' ? 'selected' : '' ?>>Operations</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="tanggal_masuk" class="block">Tanggal Masuk</label>
-                        <input type="date" id="tanggal_masuk" name="tanggal_masuk" value="<?= $EmpInfo['tanggal_masuk'] ?>" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
-                    </div>
-                </div>
+                        <!-- Step 4: Informasi terkait kontrak karyawan -->
+                        <div x-show="step === 4" x-data="kontrakForm()" class="flex flex-col gap-4">
+                            <h3 class="text-xl font-semibold text-indigo-500 border-b border-gray-200 pb-2">
+                                <i class="fa-solid fa-file-contract mr-2"></i>Informasi Kontrak
+                            </h3>
+                            <div class="flex flex-col gap-2">
+                                <label for="jenis_kontrak" class="font-medium text-gray-800">Jenis Kontrak</label>
+                                <select x-model="jenisKontrak" id="jenis_kontrak" name="jenis_kontrak" required 
+                                        class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full">
+                                    <option value="">Pilih Jenis Kontrak</option>
+                                    <option value="Tetap" <?= $EmpContract['jenis_kontrak'] === 'Tetap' ? 'selected' : '' ?>>Tetap</option>
+                                    <option value="Kontrak" <?= $EmpContract['jenis_kontrak'] === 'Kontrak' ? 'selected' : '' ?>>Kontrak</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-2" x-show="jenisKontrak === 'Kontrak'" x-transition>
+                                <label for="durasi_kontrak_bulan" class="font-medium text-gray-800">Durasi Kontrak (bulan)</label>
+                                <input type="number" x-model.number="durasiBulan" id="durasi_kontrak_bulan" name="durasi_kontrak_bulan" 
+                                       min="1" value="<?= $EmpContract['durasi_kontrak_bulan'] ?>" 
+                                       class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded-lg p-3 w-full" />
+                            </div>
+                            <div class="flex flex-col gap-2" x-show="jenisKontrak === 'Kontrak'" x-transition>
+                                <label for="tanggal_berakhir_kontrak" class="font-medium text-gray-800">Tanggal Berakhir Kontrak</label>
+                                <input type="date" id="tanggal_berakhir_kontrak" name="tanggal_berakhir_kontrak"
+                                       :value="tanggalBerakhir" readonly
+                                       class="cursor-not-allowed bg-gray-100 text-gray-500 border border-gray-300 rounded-lg p-3 w-full" />
+                            </div>
+                            <input type="hidden" name="durasi_kontrak_bulan" :value="jenisKontrak === 'Tetap' ? 'Tetap' : durasiBulan" />
+                            <input type="hidden" name="tanggal_berakhir_kontrak" :value="jenisKontrak === 'Tetap' ? '-' : tanggalBerakhir" />
+                        </div>
 
-                <!-- Step 4 : Informasi terkait kontrak karyawan -->
-                <div x-show="step === 4" x-data="kontrakForm()" class="flex flex-col gap-2">
-                    <h2 class="text-lg font-semibold text-indigo-500">Informasi Kontrak</h2>
-                    <div class="flex flex-col gap-1">
-                        <label for="jenis_kontrak" class="block">Jenis Kontrak</label>
-                        <select x-model="jenisKontrak" id="jenis_kontrak" name="jenis_kontrak" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
-                            <option value="">Pilih Jenis Kontrak</option>
-                            <option value="Tetap" <?= $EmpContract['jenis_kontrak'] === 'Tetap' ? 'selected' : '' ?>>Tetap</option>
-                            <option value="Kontrak" <?= $EmpContract['jenis_kontrak'] === 'Kontrak' ? 'selected' : '' ?>>Kontrak</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col gap-1" x-show="jenisKontrak === 'Kontrak'" x-transition>
-                        <label for="durasi_kontrak_bulan" class="block">Durasi Kontrak (bulan)</label>
-                        <input type="number" x-model.number="durasiBulan" id="durasi_kontrak_bulan" name="durasi_kontrak_bulan" min="1"
-                            value="<?= $EmpContract['durasi_kontrak_bulan'] ?>" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" />
-                    </div>
-                    <div class="flex flex-col gap-1" x-show="jenisKontrak === 'Kontrak'" x-transition>
-                        <label for="tanggal_berakhir_kontrak" class="block">Tanggal Berakhir Kontrak</label>
-                        <input type="date" id="tanggal_berakhir_kontrak" name="tanggal_berakhir_kontrak"
-                            :value="tanggalBerakhir" readonly
-                            class="cursor-not-allowed bg-gray-100 text-gray-500 outline outline-gray-300 transition-all duration-300 ease-in-out rounded p-2 w-full" />
-                    </div>
-                    <input type="hidden" name="durasi_kontrak_bulan" :value="jenisKontrak === 'Tetap' ? 'Tetap' : durasiBulan" />
-                    <input type="hidden" name="tanggal_berakhir_kontrak" :value="jenisKontrak === 'Tetap' ? '-' : tanggalBerakhir" />
+                        <!-- Navigation Buttons -->
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-200">
+                            <button 
+                                type="button" 
+                                @click="step > 1 ? step-- : null" 
+                                :class="step === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-500 hover:bg-indigo-600 text-white cursor-pointer'" 
+                                :disabled="step === 1"
+                                class="flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300"
+                            >
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span class="hidden sm:block">Kembali</span>
+                            </button>
+                            
+                            <div class="flex items-center gap-2">
+                                <template x-for="i in totalSteps" :key="i">
+                                    <div :class="i <= step ? 'bg-indigo-500' : 'bg-gray-300'" 
+                                         class="w-3 h-3 rounded-full transition-all duration-300"></div>
+                                </template>
+                            </div>
+                            
+                            <button 
+                                type="button" 
+                                @click="step < totalSteps ? step++ : null" 
+                                class="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium cursor-pointer transition-all duration-300" 
+                                x-show="step < totalSteps"
+                            >
+                                <span class="hidden sm:block">Selanjutnya</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            
+                            <button 
+                                type="submit" 
+                                class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium cursor-pointer transition-all duration-300" 
+                                x-show="step === totalSteps"
+                            >
+                                <i class="fa-solid fa-save"></i>
+                                <span class="hidden sm:block">Update</span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-
-                <div class="flex justify-between mt-4">
-                    
-                    <button 
-                        type="button" 
-                        @click="step > 1 ? step-- : null" 
-                        :class="step === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-400 hover:bg-indigo-500 text-white cursor-pointer'" 
-                        :disabled="step === 1"
-                        class="rounded px-4 py-2"
-                    >
-                        Kembali
-                    </button>
-                    
-                    
-                    <button 
-                        type="button" 
-                        @click="step < totalSteps ? step++ : null" 
-                        class="bg-indigo-500 hover:bg-indigo-600 text-white rounded px-4 py-2 cursor-pointer" 
-                        x-show="step < totalSteps"
-                    >
-                        Selanjutnya
-                    </button>
-                    
-                    
-                    <button 
-                        type="submit" 
-                        class="bg-indigo-500 hover:bg-indigo-600 text-white rounded px-4 py-2 cursor-pointer" 
-                        x-show="step === totalSteps"
-                    >
-                        Update
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
