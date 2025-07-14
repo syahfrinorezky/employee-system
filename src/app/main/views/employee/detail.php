@@ -158,6 +158,10 @@ $EmpContract = $stmtEmpContract->get_result()->fetch_assoc();
                             <i class="fas fa-user-tie text-indigo-500 text-lg"></i>
                         </h1>
                         <div class="flex flex-col">
+                            <h3 class="font-medium text-gray-900"><i class="fas fa-tag text-indigo-500 inline mr-2"></i>NIP</h3>
+                            <p class="text-gray-600"><?= $employee['nip'] ?></p>
+                        </div>
+                        <div class="flex flex-col">
                             <h3 class="font-medium text-gray-900"><i class="fas fa-puzzle-piece text-indigo-500 inline mr-2"></i>Jabatan</h3>
                             <p class="text-gray-600"><?= $EmpInfo['jabatan'] ?></p>
                         </div>
