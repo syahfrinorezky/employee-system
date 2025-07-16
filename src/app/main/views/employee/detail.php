@@ -274,7 +274,7 @@ $EmpContract = $stmtEmpContract->get_result()->fetch_assoc();
                                     <label class="text-sm font-medium text-gray-600">Durasi Kontrak</label>
                                     <p class="text-gray-800 flex items-center gap-2">
                                         <i class="fa-solid fa-clock text-indigo-500"></i>
-                                        <?= $EmpContract['durasi_kontrak_bulan'] === 'Tetap' ? 'Tidak terbatas' : $EmpContract['durasi_kontrak_bulan'] . ' bulan' ?>
+                                        <?= $EmpContract['durasi_kontrak_bulan'] === null ? '-' : $EmpContract['durasi_kontrak_bulan'] . ' bulan' ?>
                                     </p>
                                 </div>
                                 <div class="flex flex-col">
@@ -288,7 +288,7 @@ $EmpContract = $stmtEmpContract->get_result()->fetch_assoc();
                                     <label class="text-sm font-medium text-gray-600">Tanggal Berakhir</label>
                                     <p class="text-gray-800 flex items-center gap-2">
                                         <i class="fa-solid fa-calendar-times text-indigo-500"></i>
-                                        <?= $EmpContract['tanggal_berakhir_kontrak'] === '-' ? 'Tidak terbatas' : date('d F Y', strtotime($EmpContract['tanggal_berakhir_kontrak'])) ?>
+                                        <?= $EmpContract['tanggal_berakhir_kontrak'] === null ? '-' : date('d F Y', strtotime($EmpContract['tanggal_berakhir_kontrak'])) ?>
                                     </p>
                                 </div>
                                 <?php if ($EmpContract['jenis_kontrak'] === 'Kontrak'): ?>
