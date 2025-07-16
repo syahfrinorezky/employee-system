@@ -51,9 +51,19 @@ $processPath = "/employee-system/src/app/main/process/";
                                 <input type="text" id="no_hp" name="no_hp" placeholder="Masukkan No HP" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
                             </div>
                         </div>
-                        <div class="flex flex-col gap-1 sm:w-1/2">
-                            <label for="tanggal_lahir" class="font-medium text-primary text-gray-800">Tanggal Lahir</label>
-                            <input type="date" id="tanggal_lahir" name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                        <div class="flex gap-x-3">
+                            <div class="flex flex-col gap-1">
+                                <label for="tanggal_lahir" class="font-medium text-primary text-gray-800">Tanggal Lahir</label>
+                                <input type="date" id="tanggal_lahir" name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir" class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full" required/>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label for="tanggal_lahir" class="font-medium text-primary text-gray-800">Jenis Kelamin</label>
+                                <select name="jenis_kelamin" id="jenis_kelamin" required class="outline outline-gray-300 hover:outline-indigo-500 focus:outline-indigo-500 transition-all duration-300 ease-in-out rounded p-2 w-full">
+                                    <option value="">Pilih Jenis Kelamin</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
