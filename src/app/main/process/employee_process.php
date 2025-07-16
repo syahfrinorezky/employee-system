@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $no_hp = htmlspecialchars(trim($_POST['no_hp']));
     $alamat = htmlspecialchars(trim($_POST['alamat']));
     $tanggal_lahir = $_POST['tanggal_lahir'] ?? null;
+    $jenis_kelamin = $_POST['jenis_kelamin'] ?? null;
 
     // Data umum pendidikan dari karyawan
     $pendidikan_terakhir = $_POST['pendidikan_terakhir'] ?? null;
@@ -56,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($alamat)) {
         $errors['alamat'] = 'Alamat karyawan tidak boleh kosong';
-    } 
+    }
 
     if (empty($tanggal_lahir)) {
         $errors['tanggal_lahir'] = 'Tanggal lahir karyawan tidak boleh kosong';
@@ -188,9 +189,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $connection->begin_transaction();
 
         // Insert ke tabel employees
-        $insertEmployee = "INSERT INTO employees (user_id, nip, nama_lengkap, email, no_hp, alamat, tanggal_lahir) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $insertEmployee = "INSERT INTO employees (user_id, nip, nama_lengkap, email, no_hp, alamat, tanggal_lahir, jenis_kelamin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $connection->prepare($insertEmployee);
-        $stmt->bind_param('sssssss', $user_id, $nip, $nama_lengkap, $email, $no_hp, $alamat, $tanggal_lahir);
+        $stmt->bind_param('ssssssss', $user_id, $nip, $nama_lengkap, $email, $no_hp, $alamat, $tanggal_lahir, $jenis_kelamin);
 
         if (!$stmt->execute()) {
             throw new Exception('Gagal menyimpan data karyawan');
